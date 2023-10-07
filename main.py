@@ -11,7 +11,7 @@ app = FastAPI()
 def get_stock_data(ticker: str):
     try:
         # Get data for the past year
-        stock_data = yf.download(ticker, period="120d")
+        stock_data = yf.download(ticker, period="2y")
         
         # Convert the data to dictionary format
         stock_data_dict = stock_data.reset_index().to_dict(orient='records')
@@ -19,6 +19,9 @@ def get_stock_data(ticker: str):
         return stock_data_dict
     except Exception as e:
         return {"error": str(e)}
+
+
+
 
 
 # Load your OpenAI API key from a config file
