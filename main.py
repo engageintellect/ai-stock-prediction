@@ -3,6 +3,7 @@ from typing import Dict
 import json
 from openai import OpenAI
 import os
+import yfinance as yf
 
 app = FastAPI()
 
@@ -21,7 +22,6 @@ else:
 # Initialize the OpenAI client
 client = OpenAI(api_key=openai_api_key)
 
-import yfinance as yf
 
 @app.get("/stock/{ticker}")
 def get_stock_data(ticker: str):
@@ -48,4 +48,3 @@ def chat(data: Dict[str, str]):
         return {"message": response.choices[0].message.content}
     else:
         return {"message": "Invalid request"}
-
