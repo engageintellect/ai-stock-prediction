@@ -16,6 +16,7 @@ app = FastAPI()
 
 # Load your OpenAI API key from a config file
 config_file_path = '/etc/python-gpt.json'
+
 if os.path.exists(config_file_path):
     with open(config_file_path) as config_file:
         config = json.load(config_file)
@@ -29,6 +30,24 @@ else:
 # Initialize the OpenAI client
 client = OpenAI(api_key=openai_api_key)
 
+# Helloworld route
+@app.get("/hello")
+def hello():
+    return {"message": "Hello, World!"}
+
+# Initialize API route for chat
+@app.post("/chat")
+def chat(data: Dict[str, str]):
+    message = data.get("message")
+    if message:
+        response = client.chat.completions.create(model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": message}
+        ])
+        return {"message": response.choices[0].message.content}
+    else:
+        return {"message": "Invalid request"}
 
 # Initialize API route for stock data
 @app.get("/stock/{ticker}")
@@ -125,15 +144,3 @@ def get_stock_data(ticker: str):
     except Exception as e:
         return {"error": str(e)}
 
-@app.post("/chat")
-def chat(data: Dict[str, str]):
-    message = data.get("message")
-    if message:
-        response = client.chat.completions.create(model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": message}
-        ])
-        return {"message": response.choices[0].message.content}
-    else:
-        return {"message": "Invalid request"}
