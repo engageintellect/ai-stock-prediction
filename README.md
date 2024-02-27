@@ -47,19 +47,19 @@ uvircorn main:app --reload
 
 Test your api in your terminal with curl
 
-/hello
+`/hello`
 
 ```
 curl http://localhost:8000/hello
 ```
 
-/chat
+`/chat`
 
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"message": "Hello, ChatGPT!"}' http://localhost:8000/chat
 ```
 
-/stock
+`/stock`
 
 ```
 curl http://localhost:8000/stock/<TICKER>
