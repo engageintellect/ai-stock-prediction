@@ -4,7 +4,6 @@ import json
 from openai import OpenAI
 import os
 import yfinance as yf
-import requests
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -33,7 +32,12 @@ client = OpenAI(api_key=openai_api_key)
 # Helloworld route
 @app.get("/hello")
 def hello():
-    return {"message": "Hello, World!"}
+    msg = {
+        "message": "Hello, World!",
+        "version": "0.0.5",
+        }
+    print(msg)
+    return msg
 
 # Initialize API route for chat
 @app.post("/chat")
@@ -45,6 +49,7 @@ def chat(data: Dict[str, str]):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": message}
         ])
+        print({"message": response.choices[0].message.content})
         return {"message": response.choices[0].message.content}
     else:
         return {"message": "Invalid request"}

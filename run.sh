@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
-
-deactivate
 source venv/bin/activate
-uvicorn main_v2:app --reload
+uvicorn main_v3:app --reload
