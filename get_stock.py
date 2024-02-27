@@ -7,9 +7,10 @@ from tensorflow.keras.layers import LSTM, Dense
 from sklearn.metrics import mean_squared_error
 
 
+days_to_predict = 30
+stock_ticker='spy'
 
 # Fetch data from the API endpoint
-stock_ticker='PLTR'
 url = f'http://localhost:8000/stock/{stock_ticker}'
 response = requests.get(url)
 data = response.json()
@@ -45,7 +46,7 @@ model.add(Dense(units=1))
 model.compile(optimizer='adam', loss='mean_squared_error')
 
 # Train the model
-model.fit(X_train, y_train, epochs=10, batch_size=32)
+model.fit(X_train, y_train, epochs=20, batch_size=32)
 
 # Make predictions
 predicted_prices = model.predict(X_test)
@@ -65,10 +66,6 @@ print('Mean Squared Error on Test Data:', mse)
 rmse = np.sqrt(mse)
 print('Root Mean Squared Error on Test Data:', rmse)
 
-
-
-# Number of days to predict into the future
-days_to_predict = 30
 
 # Reshape the last 'look_back' days of data to predict the next 'days_to_predict' days
 last_days = close_prices_scaled[-look_back:]
