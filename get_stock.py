@@ -8,9 +8,9 @@ from sklearn.metrics import mean_squared_error
 
 
 
-
 # Fetch data from the API endpoint
-url = 'http://localhost:8000/stock/FAF'
+stock_ticker='PLTR'
+url = f'http://localhost:8000/stock/{stock_ticker}'
 response = requests.get(url)
 data = response.json()
 print(data)
@@ -68,7 +68,7 @@ print('Root Mean Squared Error on Test Data:', rmse)
 
 
 # Number of days to predict into the future
-days_to_predict = 10
+days_to_predict = 30
 
 # Reshape the last 'look_back' days of data to predict the next 'days_to_predict' days
 last_days = close_prices_scaled[-look_back:]
@@ -91,5 +91,5 @@ for _ in range(days_to_predict):
 predicted_prices = scaler.inverse_transform(np.array(predicted_prices_scaled).reshape(-1, 1))
 
 # Print the predicted prices for the next 10 days
-print("Predicted Prices for the Next 10 Days:")
+print(f"\nPredicted Prices for the Next {days_to_predict} Days:")
 print(predicted_prices)
