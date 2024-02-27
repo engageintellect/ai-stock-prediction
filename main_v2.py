@@ -59,7 +59,7 @@ def chat(data: Dict[str, str]):
 def get_stock_data(ticker: str):
     try:
         # Get data for the past year
-        stock_data = yf.download(ticker, period="120d")
+        stock_data = yf.download(ticker, period="3y")
 
         # Convert the data to dictionary format
         stock_data_dict = stock_data.reset_index().to_dict(orient='records')
@@ -76,7 +76,7 @@ def get_stock_data(ticker: str):
 
         # Prepare the data for LSTM model (input features and target variable)
         X, y = [], []
-        look_back = 90  # Number of previous days' close prices to use for prediction
+        look_back = 365  # Number of previous days' close prices to use for prediction
         for i in range(look_back, len(close_prices_scaled)):
             X.append(close_prices_scaled[i-look_back:i, 0])
             y.append(close_prices_scaled[i, 0])
