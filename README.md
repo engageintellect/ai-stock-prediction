@@ -41,14 +41,3 @@ Test your api in your terminal with curl
 curl -X POST -H "Content-Type: application/json" -d '{"message": "Hello, ChatGPT!"}' http://localhost:8000/chat
 ```
 
-
-
-
-
-
-
-
-# engage-stock-prediction
-# engage-stock-prediction
-# python-stock-prediction
-# python-stock-prediction
