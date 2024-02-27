@@ -52,14 +52,14 @@ def chat(data: dict):
 @app.get("/api/stock/{ticker}")
 def get_stock_data(ticker: str):
     try:
-        stock_data = yf.download(ticker, period="3y")
+        stock_data = yf.download(ticker, period="1y")
         ticker_data = yf.Ticker(ticker)
         close_prices = np.array(stock_data['Close']).reshape(-1, 1)
         scaler = MinMaxScaler(feature_range=(0, 1))
         close_prices_scaled = scaler.fit_transform(close_prices)
 
         X, y = [], []
-        look_back = 365
+        look_back = 90
         for i in range(look_back, len(close_prices_scaled)):
             X.append(close_prices_scaled[i-look_back:i, 0])
             y.append(close_prices_scaled[i, 0])
