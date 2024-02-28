@@ -48,7 +48,8 @@
 						</div>
 					</div>
 
-					<div class="flex flex-col gap-2 sm:flex-row">
+					<!-- <div class="flex flex-col gap-2 sm:flex-row"> -->
+					<div class="flex gap-2 overflow-auto">
 						<div class="bg-accent text-accent-content w-full rounded p-6">
 							<div>
 								<span class="font-semibold">Market Cap:</span> ${data.ticker_info.marketCap}

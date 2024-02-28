@@ -1,7 +1,11 @@
+<script lang="ts">
+	import StockMarket from 'virtual:icons/icon-park-solid/stock-market';
+</script>
+
 <div class="navbar bg-base-100 sticky top-0 z-10">
 	<div class="mx-auto w-full max-w-3xl">
 		<div class="flex-1">
-			<a href="/" class="btn btn-primary text-xl">Stonk AI</a>
+			<a href="/" class="btn btn-primary text-xl"> <StockMarket class="h-7 w-7" /></a>
 		</div>
 		<div class="flex-none gap-2">
 			<!-- <div class="form-control">

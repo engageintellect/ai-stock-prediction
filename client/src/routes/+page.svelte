@@ -31,7 +31,7 @@
 
 <div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center pb-20">
 	<div class="flex items-center gap-2 text-7xl">
-		<StockMarket class="bg-primary text-primary-content h-16 w-16 rounded-lg p-2" />
+		<StockMarket class="bg-primary text-primary-content h-20 w-20 rounded-lg px-4 py-2" />
 		<div class="my-5">Stonk AI</div>
 	</div>
 	<div class="font-thin">
