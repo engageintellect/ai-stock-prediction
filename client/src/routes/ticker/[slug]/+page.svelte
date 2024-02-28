@@ -74,8 +74,8 @@
 								{data.ticker_info.shortRatio}
 							</div>
 							<div>
-								<span class="font-semibold">Short Float</span> ${data.ticker_info
-									.shortPercentOfFloat}
+								<span class="font-semibold">Short Float</span>
+								{data.ticker_info.shortPercentOfFloat * 100}%
 							</div>
 						</div>
 					</div>
