@@ -24,20 +24,38 @@
 						{/if}
 					</div>
 				</div>
+				<div class="text-xl font-thin uppercase">{data.ticker_info.shortName}</div>
 
 				<div class="text-sm font-thin">
+					<div>
+						<span class="font-semibold">Website:</span>
+						<a href={data.ticker_info.website} target="_blank">{data.ticker_info.website}</a>
+					</div>
+
 					<div>
 						<span class="font-semibold">Location:</span>
 						{data.ticker_info.city}, {data.ticker_info.state}
 					</div>
-					<div><span class="font-semibold">Website:</span> {data.ticker_info.website}</div>
+
 					<div>
 						<span class="font-semibold">Employees:</span>
 						{data.ticker_info.fullTimeEmployees}
 					</div>
-					<div><span class="font-semibold">Open:</span> {data.ticker_info.open}</div>
-					<div><span class="font-semibold">Low:</span> {data.ticker_info.dayLow}</div>
-					<div><span class="font-semibold">Close:</span> {data.ticker_info.dayHigh}</div>
+
+					<div>
+						<span class="font-semibold">Sector:</span>
+						{data.ticker_info.sectorDisp}
+					</div>
+
+					<div><span class="font-semibold">Market Cap:</span> ${data.ticker_info.marketCap}</div>
+					<div><span class="font-semibold">Volume:</span> ${data.ticker_info.volume}</div>
+					<div><span class="font-semibold">Open:</span> ${data.ticker_info.open}</div>
+					<div><span class="font-semibold">Low:</span> ${data.ticker_info.dayLow}</div>
+					<div><span class="font-semibold">Close:</span> ${data.ticker_info.close}</div>
+					<div><span class="font-semibold">Short Ratio</span> ${data.ticker_info.shortRatio}</div>
+					<div>
+						<span class="font-semibold">Short Float</span> ${data.ticker_info.shortPercentOfFloat}
+					</div>
 				</div>
 			</div>
 
@@ -45,7 +63,7 @@
 				<div class="font-semibold">Predictions</div>
 				<div class="flex gap-2 overflow-auto">
 					{#each data.predicted_prices as price}
-						<div class="bg-primary rounded p-6">
+						<div class="bg-primary text-primary-content rounded p-6">
 							<div class="w-full">{price.date}</div>
 							<div class="w-full">${price.price}</div>
 						</div>
