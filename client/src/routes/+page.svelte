@@ -1,11 +1,7 @@
 <script lang="ts">
-	import Hero from './../lib/components/Hero.svelte';
 	import Roadmap from '$lib/components/Roadmap.svelte';
 	import { goto } from '$app/navigation';
 	import { writable } from 'svelte/store';
-	import SvelteLogo from 'virtual:icons/logos/svelte-icon';
-	import Search from 'virtual:icons/heroicons-solid/search';
-	import Rocket from 'virtual:icons/icon-park-outline/rocket';
 	import StockMarket from 'virtual:icons/icon-park-solid/stock-market';
 	import Send from 'virtual:icons/bi/send-fill';
 	let inputValue = '';
@@ -31,7 +27,7 @@
 
 <div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center pb-20">
 	<div class="flex items-center gap-2 text-7xl">
-		<StockMarket class="bg-primary text-primary-content h-20 w-20 rounded-lg px-4 py-2" />
+		<StockMarket class="bg-primary text-primary-content h-20 w-20 rounded px-4 py-2" />
 		<div class="my-5">Stonk AI</div>
 	</div>
 	<div class="font-thin">
