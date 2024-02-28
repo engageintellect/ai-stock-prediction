@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
+import datetime
 
 
 app = FastAPI()
@@ -87,13 +88,22 @@ def get_stock_data(ticker: str):
             last_days[-1] = prediction
 
         predicted_prices = scaler.inverse_transform(np.array(predicted_prices_scaled).reshape(-1, 1))
+        predicted_prices = [price for sublist in predicted_prices.tolist() for price in sublist]
+
+        # Get the current date
+        current_date = datetime.date.today()
+        # Generate future dates starting from the current date
+        dates = [current_date + datetime.timedelta(days=i) for i in range(len(predicted_prices))]
+        # Create list of dictionaries containing date, price, and id
+        price_objects = [{"id": i+1, "date": str(date), "price": price} for i, (date, price) in enumerate(zip(dates, predicted_prices))]
         
         # Pretty print ticker_data.info
         ticker_info_dict = ticker_data.info
         ticker_info_str = json.dumps(ticker_info_dict, indent=4)
         print(ticker_info_str)
 
-        payload={"ticker": ticker, "ticker_info": ticker_info_dict, "predicted_prices": predicted_prices.tolist()}
+        payload={"ticker": ticker, "ticker_info": ticker_info_dict, "predicted_prices": price_objects}
+
         return payload
 
     except Exception as e:
