@@ -1,90 +1,39 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	export let data: PageData;
+	import { goto } from '$app/navigation';
 
-	let isBullish = false;
+	let inputValue = '';
+
+	function handleSubmit(event: any) {
+		event.preventDefault(); // Prevent default form submission behavior
+		const searchQuery = inputValue.trim();
+		if (searchQuery) {
+			goto(`/ticker/${encodeURIComponent(searchQuery)}`);
+		}
+	}
 </script>
 
-<div class="p-6">
-	<!-- <div class="py-6 text-5xl font-semibold">hello world</div> -->
+<div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center">
+	<div class="my-5 text-7xl">Stonk AI</div>
+	<div class="font-thin">
+		Labore id consectetur proident id ipsum magna consectetur ut sunt officia et non. Nostrud veniam
+	</div>
 
-	<!-- add a loading state 	 -->
-	{#if !data}
-		<div>Loading...</div>
-	{:else}
-		<div class="flex flex-col gap-5">
-			<div class="flex flex-col">
-				<div class="flex items-center gap-2">
-					<div class="text-5xl uppercase">{data.ticker}</div>
-					<div class="text-sm">
-						{#if data.ticker_info.open < data.ticker_info.close}
-							<span class="bg-success text-success-content rounded-full p-2">Bullish 👍</span>
-						{:else}
-							<span class="bg-error text-error-content rounded-full p-2">Bearish 👎</span>
-						{/if}
-					</div>
-				</div>
-				<div class="text-xl font-thin uppercase">{data.ticker_info.shortName}</div>
-
-				<div class="text-sm font-thin">
-					<div>
-						<span class="font-semibold">Website:</span>
-						<a href={data.ticker_info.website} target="_blank">{data.ticker_info.website}</a>
-					</div>
-
-					<div>
-						<span class="font-semibold">Location:</span>
-						{data.ticker_info.city}, {data.ticker_info.state}
-					</div>
-
-					<div>
-						<span class="font-semibold">Employees:</span>
-						{data.ticker_info.fullTimeEmployees}
-					</div>
-
-					<div>
-						<span class="font-semibold">Sector:</span>
-						{data.ticker_info.sectorDisp}
-					</div>
-
-					<div><span class="font-semibold">Market Cap:</span> ${data.ticker_info.marketCap}</div>
-					<div><span class="font-semibold">Volume:</span> ${data.ticker_info.volume}</div>
-					<div><span class="font-semibold">Open:</span> ${data.ticker_info.open}</div>
-					<div><span class="font-semibold">Low:</span> ${data.ticker_info.dayLow}</div>
-					<div><span class="font-semibold">Close:</span> ${data.ticker_info.close}</div>
-					<div><span class="font-semibold">Short Ratio</span> ${data.ticker_info.shortRatio}</div>
-					<div>
-						<span class="font-semibold">Short Float</span> ${data.ticker_info.shortPercentOfFloat}
-					</div>
-				</div>
-			</div>
-
-			<div class="">
-				<div class="font-semibold">Predictions</div>
-				<div class="flex gap-2 overflow-auto">
-					{#each data.predicted_prices as price}
-						<div class="bg-primary text-primary-content rounded p-6">
-							<div class="w-full">{price.date}</div>
-							<div class="w-full">${price.price}</div>
-						</div>
-					{/each}
-				</div>
-			</div>
-
-			<div>
-				<div class="font-semibold">Description:</div>
-				<div>{data.ticker_info.longBusinessSummary}</div>
-			</div>
-		</div>
-		<a class="btn btn-primary" href="http://localhost:5173">click me</a>
-
-		<div class="my-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-			{#each data.predicted_prices as price}
-				<div class="bg-base-300 rounded p-2">
-					<div class="w-full">{price.date}</div>
-					<div class="w-full">${price.price}</div>
-				</div>
-			{/each}
-		</div>
-	{/if}
+	<form on:submit={handleSubmit} class="w-full">
+		<label class="input input-bordered my-5 flex w-full items-center gap-2">
+			<input type="text" class="w-full grow" placeholder="Search" bind:value={inputValue} />
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 16 16"
+				fill="currentColor"
+				class="h-4 w-4 opacity-70"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+					clip-rule="evenodd"
+				/>
+			</svg>
+		</label>
+		<button type="submit" class="btn btn-primary w-full">Search</button>
+	</form>
 </div>
