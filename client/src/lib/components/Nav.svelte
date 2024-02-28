@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 sticky top-0">
+<div class="navbar bg-base-100 sticky top-0 z-10">
 	<div class="mx-auto w-full max-w-3xl">
 		<div class="flex-1">
 			<a href="/" class="btn btn-primary text-xl">Stonk AI</a>

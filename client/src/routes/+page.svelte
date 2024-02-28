@@ -1,18 +1,31 @@
 <script lang="ts">
+	import Hero from './../lib/components/Hero.svelte';
+	import Roadmap from '$lib/components/Roadmap.svelte';
 	import { goto } from '$app/navigation';
+	import { writable } from 'svelte/store';
 
 	let inputValue = '';
+	let isLoading = writable(false); // Initialize loading state as false
 
-	function handleSubmit(event: any) {
+	async function handleSubmit(event: any) {
 		event.preventDefault(); // Prevent default form submission behavior
 		const searchQuery = inputValue.trim();
 		if (searchQuery) {
-			goto(`/ticker/${encodeURIComponent(searchQuery)}`);
+			isLoading.set(true); // Activate loading state
+			try {
+				// Simulate a delay for demonstration purposes (replace with actual API request)
+				await new Promise((resolve) => setTimeout(resolve, 2000));
+				goto(`/ticker/${encodeURIComponent(searchQuery)}`);
+			} catch (error) {
+				console.error('Error:', error);
+				// Handle error if necessary
+			} finally {
+			}
 		}
 	}
 </script>
 
-<div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center">
+<div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center pb-20">
 	<div class="my-5 text-7xl">Stonk AI</div>
 	<div class="font-thin">
 		Labore id consectetur proident id ipsum magna consectetur ut sunt officia et non. Nostrud veniam
@@ -34,6 +47,15 @@
 				/>
 			</svg>
 		</label>
-		<button type="submit" class="btn btn-primary w-full">Search</button>
+		<button type="submit" class="btn btn-primary w-full">
+			{#if $isLoading}
+				<span class="loading loading-infinity loading-md scale-125"></span>
+			{:else}
+				<div>Search</div>
+			{/if}
+		</button>
 	</form>
 </div>
+
+<!-- <Hero /> -->
+<Roadmap />
