@@ -6,6 +6,8 @@
 	import SvelteLogo from 'virtual:icons/logos/svelte-icon';
 	import Search from 'virtual:icons/heroicons-solid/search';
 	import Rocket from 'virtual:icons/icon-park-outline/rocket';
+	import StockMarket from 'virtual:icons/icon-park-solid/stock-market';
+	import Send from 'virtual:icons/bi/send-fill';
 	let inputValue = '';
 	let isLoading = writable(false); // Initialize loading state as false
 
@@ -29,10 +31,8 @@
 
 <div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center pb-20">
 	<div class="flex items-center gap-2 text-7xl">
-		<Rocket class="h-16 w-16" />
-		<div class="my-5">
-			Stonk <span class="bg-primary text-primary-content w-full rounded-lg px-3">AI</span>
-		</div>
+		<StockMarket class="bg-primary text-primary-content h-16 w-16 rounded-lg p-2" />
+		<div class="my-5">Stonk AI</div>
 	</div>
 	<div class="font-thin">
 		Labore id consectetur proident id ipsum magna consectetur ut sunt officia et non. Nostrud veniam
@@ -58,7 +58,12 @@
 			{#if $isLoading}
 				<span class="loading loading-infinity loading-md scale-125"></span>
 			{:else}
-				<div>Search</div>
+				<div class="flex items-center gap-2">
+					<div class="uppercase">search</div>
+					<div>
+						<Send class="" />
+					</div>
+				</div>
 			{/if}
 		</button>
 	</form>

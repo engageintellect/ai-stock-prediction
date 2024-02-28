@@ -6,16 +6,15 @@
 </script>
 
 <div class="">
-	<!-- <div class="py-6 text-5xl font-semibold">hello world</div> -->
-
-	<!-- add a loading state 	 -->
 	{#if !data}
 		<div>Loading...</div>
 	{:else}
 		<div class="flex flex-col gap-5">
 			<div class="flex flex-col">
 				<div class="flex items-center gap-2">
-					<div class="text-5xl uppercase">{data.ticker}</div>
+					<div class="text-5xl uppercase">
+						{data.ticker} <span class="font-thin">${data.ticker_info.currentPrice}</span>
+					</div>
 					<div class="text-sm">
 						{#if data.ticker_info.open < data.ticker_info.close}
 							<span class="bg-success text-success-content rounded-full p-2">Bullish 👍</span>
@@ -26,39 +25,58 @@
 				</div>
 				<div class="text-xl font-thin uppercase">{data.ticker_info.shortName}</div>
 
-				<div class="text-sm font-thin">
+				<div class="flex flex-col gap-5 text-sm font-thin">
 					<div>
-						<span class="font-semibold">Website:</span>
-						<a href={data.ticker_info.website} target="_blank">{data.ticker_info.website}</a>
+						<div>
+							<span class="font-semibold">Website:</span>
+							<a href={data.ticker_info.website} target="_blank">{data.ticker_info.website}</a>
+						</div>
+
+						<div>
+							<span class="font-semibold">Location:</span>
+							{data.ticker_info.city}, {data.ticker_info.state}
+						</div>
+
+						<div>
+							<span class="font-semibold">Employees:</span>
+							{data.ticker_info.fullTimeEmployees}
+						</div>
+
+						<div>
+							<span class="font-semibold">Sector:</span>
+							{data.ticker_info.sectorDisp}
+						</div>
 					</div>
 
-					<div>
-						<span class="font-semibold">Location:</span>
-						{data.ticker_info.city}, {data.ticker_info.state}
-					</div>
+					<div class="flex flex-col gap-2 sm:flex-row">
+						<div class="bg-accent text-accent-content w-full rounded p-6">
+							<div>
+								<span class="font-semibold">Market Cap:</span> ${data.ticker_info.marketCap}
+							</div>
+							<div><span class="font-semibold">Volume:</span> ${data.ticker_info.volume}</div>
+							<div><span class="font-semibold">Open:</span> ${data.ticker_info.open}</div>
+							<div><span class="font-semibold">Low:</span> ${data.ticker_info.dayLow}</div>
+							<div><span class="font-semibold">Close:</span> ${data.ticker_info.dayHigh}</div>
+						</div>
 
-					<div>
-						<span class="font-semibold">Employees:</span>
-						{data.ticker_info.fullTimeEmployees}
-					</div>
-
-					<div>
-						<span class="font-semibold">Sector:</span>
-						{data.ticker_info.sectorDisp}
-					</div>
-
-					<div>
-						<span class="font-semibold">Recommendation</span>
-						{data.ticker_info.recommendationKey}
-					</div>
-					<div><span class="font-semibold">Market Cap:</span> ${data.ticker_info.marketCap}</div>
-					<div><span class="font-semibold">Volume:</span> ${data.ticker_info.volume}</div>
-					<div><span class="font-semibold">Open:</span> ${data.ticker_info.open}</div>
-					<div><span class="font-semibold">Low:</span> ${data.ticker_info.dayLow}</div>
-					<div><span class="font-semibold">Close:</span> ${data.ticker_info.dayClose}</div>
-					<div><span class="font-semibold">Short Ratio</span> ${data.ticker_info.shortRatio}</div>
-					<div>
-						<span class="font-semibold">Short Float</span> ${data.ticker_info.shortPercentOfFloat}
+						<div class="bg-accent text-accent-content w-full rounded p-6">
+							<div>
+								<span class="font-semibold">Recommendation</span>
+								{data.ticker_info.recommendationKey}
+							</div>
+							<div><span class="font-semibold">Volume:</span> ${data.ticker_info.volume}</div>
+							<div><span class="font-semibold">Open:</span> ${data.ticker_info.open}</div>
+							<div><span class="font-semibold">Low:</span> ${data.ticker_info.dayLow}</div>
+							<div><span class="font-semibold">Close:</span> ${data.ticker_info.dayHigh}</div>
+							<div>
+								<span class="font-semibold">Short Ratio</span>
+								{data.ticker_info.shortRatio}
+							</div>
+							<div>
+								<span class="font-semibold">Short Float</span> ${data.ticker_info
+									.shortPercentOfFloat}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -68,8 +86,8 @@
 				<div class="flex gap-2 overflow-auto">
 					{#each data.predicted_prices as price}
 						<div class="bg-primary text-primary-content rounded p-6">
-							<div class="w-full">{price.date}</div>
-							<div class="w-full">${price.price}</div>
+							<div class="w-full text-sm font-semibold">{price.date}</div>
+							<div class="w-full text-2xl">${price.price}</div>
 						</div>
 					{/each}
 				</div>
