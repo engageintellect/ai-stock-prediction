@@ -3,7 +3,9 @@
 	import Roadmap from '$lib/components/Roadmap.svelte';
 	import { goto } from '$app/navigation';
 	import { writable } from 'svelte/store';
-
+	import SvelteLogo from 'virtual:icons/logos/svelte-icon';
+	import Search from 'virtual:icons/heroicons-solid/search';
+	import Rocket from 'virtual:icons/icon-park-outline/rocket';
 	let inputValue = '';
 	let isLoading = writable(false); // Initialize loading state as false
 
@@ -26,7 +28,12 @@
 </script>
 
 <div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center pb-20">
-	<div class="my-5 text-7xl">Stonk AI</div>
+	<div class="flex items-center gap-2 text-7xl">
+		<Rocket class="h-16 w-16" />
+		<div class="my-5">
+			Stonk <span class="bg-primary text-primary-content w-full rounded-lg px-3">AI</span>
+		</div>
+	</div>
 	<div class="font-thin">
 		Labore id consectetur proident id ipsum magna consectetur ut sunt officia et non. Nostrud veniam
 	</div>
