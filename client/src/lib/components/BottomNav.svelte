@@ -1,50 +1,49 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+	import StockMarket from 'virtual:icons/icon-park-solid/stock-market';
+	import Home from 'virtual:icons/material-symbols/home-rounded';
+	import GitHub from 'virtual:icons/bi/github';
+	import Mail from 'virtual:icons/material-symbols/mail';
+
+	// Store to keep track of the last clicked index
+	const activeIndex = writable<number>(-1);
+
+	// Function to handle the click event
+	function handleClick(index: number) {
+		activeIndex.set(index);
+	}
+
+	// Reset activeIndex on component mount
+	onMount(() => {
+		activeIndex.set(-1);
+	});
 </script>
 
 <div class="btm-nav">
-	<a href="/">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-5 w-5"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			><path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-			/></svg
-		>
+	<a href="/" on:click={() => handleClick(0)} class:active={$activeIndex === 0}>
+		<Home class="h-16 w-16 rounded px-4 py-2" />
 	</a>
-	<a href="https://github.com/engageintellect" class="active">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-5 w-5"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			><path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-			/></svg
-		>
+	<a
+		href="https://github.com/engageintellect"
+		on:click={() => handleClick(1)}
+		class:active={$activeIndex === 1}
+	>
+		<GitHub class="h-16 w-16 rounded px-4 py-2" />
 	</a>
-	<a href="/">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-5 w-5"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			><path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-			/></svg
-		>
+	<a
+		href="mailto:engage.intellect@protonmail.com"
+		on:click={() => handleClick(2)}
+		class:active={$activeIndex === 2}
+	>
+		<Mail class="h-16 w-16 rounded px-4 py-2" />
 	</a>
 </div>
+
+<style>
+	.selected {
+		/* Your active styles here */
+		/* For example: */
+		background-color: blue;
+	}
+</style>

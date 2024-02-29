@@ -1,4 +1,4 @@
-<ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+<ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical my-10">
 	<li>
 		<div class="timeline-middle">
 			<svg

@@ -29,7 +29,7 @@
 
 		analysis: {
 			recommendation: data.ticker_info?.recommendationKey?.toUpperCase() ?? '',
-			debtTpEquity: data.ticker_info?.debtToEquity ?? '',
+			debtToEquity: data.ticker_info?.debtToEquity ?? '',
 			freeCashFlow: formatPrice(data.ticker_info?.freeCashflow),
 			ebitda: formatPrice(data.ticker_info?.ebitda),
 			shortRatio: data.ticker_info?.shortRatio ?? '',
