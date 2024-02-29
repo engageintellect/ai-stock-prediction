@@ -39,6 +39,7 @@
 	<form on:submit={handleSubmit} class="w-full">
 		<label class="input input-bordered my-5 flex w-full items-center gap-2">
 			<input
+				autofocus
 				type="text"
 				class="w-full grow uppercase"
 				placeholder="Search..."
