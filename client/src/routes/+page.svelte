@@ -25,14 +25,19 @@
 	}
 </script>
 
-<div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center pb-20">
+<div class="mx-auto flex w-full max-w-lg flex-col items-center justify-center py-5 sm:py-10">
 	<div class="flex items-center gap-2 text-7xl">
 		<StockMarket class="bg-primary text-primary-content h-20 w-20 rounded px-4 py-2" />
 		<div class="my-5">Stonk AI</div>
 	</div>
-	<div class="font-thin">
-		Labore id consectetur proident id ipsum magna consectetur ut sunt officia et non. Nostrud veniam
-	</div>
+
+	{#if $isLoading}
+		<div class="animate-pulse font-thin">
+			Searching <span class="uppercase">{inputValue}</span>...
+		</div>
+	{:else}
+		<div class="font-thin">Find the latest stock information for any company</div>
+	{/if}
 
 	<form on:submit={handleSubmit} class="w-full">
 		<label class="input input-bordered my-5 flex w-full items-center gap-2">
