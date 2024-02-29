@@ -112,5 +112,5 @@ def get_stock_data(ticker: str):
     
 
 if __name__ == "__main__":
-    uvicorn.run("main_v3:app", host="0.0.0.0", port=6969,)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000,)
 

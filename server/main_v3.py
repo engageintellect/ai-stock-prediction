@@ -27,6 +27,14 @@ else:
 client = OpenAI(api_key=openai_api_key)
 
 # Hello World route
+@app.get("/", tags=["root"])
+def hello():
+    msg={"message": "Hello, World!", "version": "0.0.5"}
+    print(msg)
+    return msg
+
+
+# Hello World route
 @app.get("/api/hello")
 def hello():
     msg={"message": "Hello, World!", "version": "0.0.5"}
