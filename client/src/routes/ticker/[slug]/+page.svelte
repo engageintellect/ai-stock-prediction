@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { PageData } from './$types';
 	export let data: PageData;
 
@@ -34,6 +35,7 @@
 
 		performance: {
 			currentPrice: formatPrice(data.ticker_info?.currentPrice),
+			yesterdaysClose: formatPrice(data.ticker_info?.previousClose),
 			marketCap: formatPrice(data.ticker_info?.marketCap),
 			volume: formatPrice(data.ticker_info?.volume),
 			open: formatPrice(data.ticker_info?.open),
@@ -43,6 +45,9 @@
 
 		analysis: {
 			recommendation: data.ticker_info?.recommendationKey?.toUpperCase(),
+			debtTpEquity: data.ticker_info?.debtToEquity,
+			freeCashFlow: formatPrice(data.ticker_info?.freeCashflow),
+			ebitda: formatPrice(data.ticker_info?.ebitda),
 			shortRatio: data.ticker_info?.shortRatio,
 			shortFloat: formatPercent(data.ticker_info?.shortPercentOfFloata ?? 0),
 			beta: data.ticker_info?.beta,
@@ -63,8 +68,15 @@
 						<div>
 							{ticker.info.symbol}
 						</div>
-						{#if ticker.info.currentPrice}
-							<div class="badge badge-primary h-full px-4 py-2 text-3xl font-thin">
+
+						{#if ticker.performance && ticker.performance.currentPrice && ticker.performance.yesterdaysClose && ticker.performance.currentPrice > ticker.performance.yesterdaysClose}
+							<div
+								class="badge badge-primary text-primary-content h-full px-4 py-2 text-3xl font-thin"
+							>
+								{ticker.info.currentPrice}
+							</div>
+						{:else}
+							<div class="badge badge-error text-error-content h-full px-4 py-2 text-3xl font-thin">
 								{ticker.info.currentPrice}
 							</div>
 						{/if}
@@ -133,9 +145,9 @@
 			</div>
 
 			<div class="">
-				<div class="font-semibold">30 Day Forecast:</div>
+				<div class="font-semibold">30 AI Day Forecast:</div>
 				<div class="flex gap-2 overflow-auto">
-					{#each data.predicted_prices as price}
+					{#each predicted_prices as price}
 						<div class="bg-primary text-primary-content rounded p-6 text-center">
 							<div class="flex flex-col items-center justify-center gap-2">
 								<div class="w-full text-nowrap text-sm font-thin">{price.date}</div>
@@ -156,10 +168,10 @@
 		<a class="btn btn-primary my-5" href={ticker.info.website}>Learn More</a>
 
 		<div class="my-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-			{#each data.predicted_prices as price}
+			{#each predicted_prices as price}
 				<div class="bg-base-300 rounded p-2">
 					<div class="w-full">{price.date}</div>
-					<div class="w-full">${price.price}</div>
+					<div class="w-full">{price.price}</div>
 				</div>
 			{/each}
 		</div>
