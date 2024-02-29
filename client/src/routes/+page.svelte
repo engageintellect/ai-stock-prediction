@@ -13,13 +13,10 @@
 		if (searchQuery) {
 			isLoading.set(true); // Activate loading state
 			try {
-				// Simulate a delay for demonstration purposes (replace with actual API request)
 				await new Promise((resolve) => setTimeout(resolve, 2000));
 				goto(`/ticker/${encodeURIComponent(searchQuery)}`);
 			} catch (error) {
 				console.error('Error:', error);
-				// Handle error if necessary
-			} finally {
 			}
 		}
 	}
@@ -41,7 +38,12 @@
 
 	<form on:submit={handleSubmit} class="w-full">
 		<label class="input input-bordered my-5 flex w-full items-center gap-2">
-			<input type="text" class="w-full grow" placeholder="Search" bind:value={inputValue} />
+			<input
+				type="text"
+				class="w-full grow uppercase"
+				placeholder="Search..."
+				bind:value={inputValue}
+			/>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 16 16"
@@ -70,5 +72,4 @@
 	</form>
 </div>
 
-<!-- <Hero /> -->
 <Roadmap />
