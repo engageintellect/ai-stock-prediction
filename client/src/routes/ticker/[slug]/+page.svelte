@@ -1,18 +1,12 @@
 <script lang="ts">
-	import { tick } from 'svelte';
 	import type { PageData } from './$types';
+
 	export let data: PageData;
 
-	function formatPercent(number: Number) {
-		if (number) {
-			return (Number(number) * 100).toFixed(2);
-		}
-	}
-	function formatPrice(number: Number) {
-		if (number) {
-			return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-		}
-	}
+	const formatPercent = (number?: number): string => (number ? (number * 100).toFixed(2) : '');
+
+	const formatPrice = (number?: number): string =>
+		number ? number.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : '';
 
 	let predicted_prices = data.predicted_prices.map((price: any) => {
 		return {
@@ -23,14 +17,26 @@
 
 	let ticker = {
 		info: {
-			symbol: data.ticker?.toUpperCase(),
-			name: data.ticker_info?.shortName,
+			symbol: data.ticker?.toUpperCase() ?? '',
+			name: data.ticker_info?.shortName ?? '',
 			currentPrice: formatPrice(data.ticker_info?.currentPrice),
-			website: data.ticker_info?.website,
-			city: data.ticker_info?.city,
-			state: data.ticker_info?.state,
-			employees: data.ticker_info?.fullTimeEmployees?.toLocaleString('en-US'),
-			sector: data.ticker_info?.sectorDisp
+			website: data.ticker_info?.website ?? '',
+			city: data.ticker_info?.city ?? '',
+			state: data.ticker_info?.state ?? '',
+			employees: data.ticker_info?.fullTimeEmployees?.toLocaleString('en-US') ?? '',
+			sector: data.ticker_info?.sectorDisp ?? ''
+		},
+
+		analysis: {
+			recommendation: data.ticker_info?.recommendationKey?.toUpperCase() ?? '',
+			debtTpEquity: data.ticker_info?.debtToEquity ?? '',
+			freeCashFlow: formatPrice(data.ticker_info?.freeCashflow),
+			ebitda: formatPrice(data.ticker_info?.ebitda),
+			shortRatio: data.ticker_info?.shortRatio ?? '',
+			shortFloat: formatPercent(data.ticker_info?.shortPercentOfFloata ?? 0),
+			beta: data.ticker_info?.beta ?? '',
+			trailingEps: formatPrice(data.ticker_info?.trailingEps),
+			forwardEps: formatPrice(data.ticker_info?.forwardEps)
 		},
 
 		performance: {
@@ -40,19 +46,18 @@
 			volume: formatPrice(data.ticker_info?.volume),
 			open: formatPrice(data.ticker_info?.open),
 			low: formatPrice(data.ticker_info?.dayLow),
-			close: formatPrice(data.ticker_info?.dayHigh)
+			close: formatPrice(data.ticker_info?.dayHigh),
+			fiftyTwoWeekHigh: formatPrice(data.ticker_info?.fiftyTwoWeekHigh),
+			fiftyTwoWeekLow: formatPrice(data.ticker_info?.fiftyTwoWeekLow)
 		},
 
-		analysis: {
-			recommendation: data.ticker_info?.recommendationKey?.toUpperCase(),
-			debtTpEquity: data.ticker_info?.debtToEquity,
-			freeCashFlow: formatPrice(data.ticker_info?.freeCashflow),
-			ebitda: formatPrice(data.ticker_info?.ebitda),
-			shortRatio: data.ticker_info?.shortRatio,
-			shortFloat: formatPercent(data.ticker_info?.shortPercentOfFloata ?? 0),
-			beta: data.ticker_info?.beta,
-			fiftyTwoWeekLow: formatPrice(data.ticker_info?.fiftyTwoWeekLow),
-			fiftyTwoWeekHigh: formatPrice(data.ticker_info?.fiftyTwoWeekHigh)
+		sentiment: {
+			floatShares: formatPrice(data.ticker_info?.floatShares),
+			sharesOutstanding: formatPrice(data.ticker_info?.sharesOutstanding),
+			sharesShort: formatPrice(data.ticker_info?.sharesShort),
+			sharesShortPriorMonth: formatPrice(data.ticker_info?.sharesShortPriorMonth),
+			shortPercent: formatPercent(data.ticker_info?.shortPercentOfFloat),
+			shortRatio: data.ticker_info?.shortRatio
 		}
 	};
 </script>
@@ -69,14 +74,16 @@
 							{ticker.info.symbol}
 						</div>
 
-						{#if ticker.performance && ticker.performance.currentPrice && ticker.performance.yesterdaysClose && ticker.performance.currentPrice > ticker.performance.yesterdaysClose}
-							<div
-								class="badge badge-primary text-primary-content h-full px-4 py-2 text-3xl font-thin"
-							>
-								{ticker.info.currentPrice}
-							</div>
-						{:else}
-							<div class="badge badge-error text-error-content h-full px-4 py-2 text-3xl font-thin">
+						{#if ticker.performance && ticker.performance.currentPrice && ticker.performance.yesterdaysClose && Number(ticker.performance.currentPrice) > Number(ticker.performance.yesterdaysClose)}
+							{#if ticker.info.currentPrice}
+								<div
+									class="badge badge-primary text-primary-content h-full px-4 py-2 text-3xl font-bold"
+								>
+									{ticker.info.currentPrice}
+								</div>
+							{/if}
+						{:else if ticker.info.currentPrice}
+							<div class="badge badge-error text-error-content h-full px-4 py-2 text-3xl font-bold">
 								{ticker.info.currentPrice}
 							</div>
 						{/if}
@@ -111,19 +118,23 @@
 			</div>
 
 			<div class="">
-				<div class="font-semibold">Analyst Data:</div>
+				<div class="font-semibold">Performance Data:</div>
 				<div class="flex gap-2 overflow-auto">
 					{#each Object.entries(ticker) as [key, value]}
-						<div class="bg-accent text-accent-content rounded p-6">
-							{#each Object.entries(value) as x}
-								{#if x[1]}
-									<div class="flex gap-2">
-										<div class="capitalize">{x[0]}:</div>
-										<div class="font-thin">{x[1]}</div>
-									</div>
-								{/if}
-							{/each}
-						</div>
+						{#if key !== 'info' && key !== 'analysis'}
+							{#if value && Object.values(value).some((x) => x)}
+								<div class="bg-accent text-accent-content rounded p-6">
+									{#each Object.entries(value) as [prop, propValue]}
+										{#if propValue}
+											<div class="flex gap-2">
+												<div class="capitalize">{prop}:</div>
+												<div class="font-thin">{propValue}</div>
+											</div>
+										{/if}
+									{/each}
+								</div>
+							{/if}
+						{/if}
 					{/each}
 				</div>
 			</div>
@@ -151,7 +162,7 @@
 						<div class="bg-primary text-primary-content rounded p-6 text-center">
 							<div class="flex flex-col items-center justify-center gap-2">
 								<div class="w-full text-nowrap text-sm font-thin">{price.date}</div>
-								<div class="text-xl font-semibold uppercase">{formatPrice(price.price)}</div>
+								<div class="text-xl font-semibold uppercase">{price.price}</div>
 							</div>
 						</div>
 					{/each}
